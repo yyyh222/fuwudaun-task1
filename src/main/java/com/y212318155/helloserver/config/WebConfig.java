@@ -1,6 +1,6 @@
 package com.y212318155.helloserver.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.y212318155.helloserver.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -8,13 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private TokenInterceptor tokenInterceptor;
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/api/**")
+        registry.addInterceptor(new AuthInterceptor())
+                .addPathPatterns("/api/users/**")
                 .excludePathPatterns("/api/users", "/api/users/login");
     }
 }
